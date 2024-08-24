@@ -13,9 +13,6 @@ puppeteer.use(StealthPlugin());
 let browser: Browser | null = null;
 async function runPuppeteer() {
   try {
-    if (browser) {
-      await browser.close();
-    }
     console.log("Started puppeteer");
     browser = await puppeteer.launch({
       headless: true,
@@ -25,14 +22,17 @@ async function runPuppeteer() {
     await page.setUserAgent(
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3419.0 Safari/537.36"
     );
-    await page.goto(
-      "https://service2.diplo.de/rktermin/extern/appointment_showMonth.do?locationCode=kath&realmId=321&categoryId=3142"
-    );
+    await Promise.all([
+      await page.waitForNavigation(),
+      await page.goto(
+        "https://service2.diplo.de/rktermin/extern/appointment_showMonth.do?locationCode=kath&realmId=321&categoryId=3142"
+      ),
+    ]);
     await page.setDefaultTimeout(2000);
     await page.setDefaultNavigationTimeout(0);
 
     console.log("Waiting for captcha");
-    await delay(1500);
+    await delay(500);
     await page.waitForSelector("captcha");
     const base64Captcha = await page.$eval(
       "captcha>div",
