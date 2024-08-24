@@ -81,7 +81,7 @@ async function runPuppeteer() {
       console.log("Not available");
       await bot.api.sendMessage(
         "-1002242509001",
-        `No appointment at this time. \n Captcha was <b>${extractedText}</b>`,
+        `No appointment at this time. \nCaptcha was <b>${extractedText}</b>`,
         { parse_mode: "HTML" }
       );
       await browser.close();
