@@ -22,14 +22,14 @@ async function runPuppeteer() {
     await page.setUserAgent(
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3419.0 Safari/537.36"
     );
+    await page.setDefaultTimeout(2000);
+    await page.setDefaultNavigationTimeout(0);
     await Promise.all([
       await page.waitForNavigation(),
       await page.goto(
         "https://service2.diplo.de/rktermin/extern/appointment_showMonth.do?locationCode=kath&realmId=321&categoryId=3142"
       ),
     ]);
-    await page.setDefaultTimeout(2000);
-    await page.setDefaultNavigationTimeout(0);
 
     console.log("Waiting for captcha");
     await delay(500);
