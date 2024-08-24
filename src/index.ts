@@ -6,7 +6,7 @@ import path from "path";
 import { Browser } from "puppeteer";
 import { botToken, delay } from "./utils";
 import { Bot } from "grammy";
-
+import cron from "node-cron";
 const bot = new Bot(botToken);
 
 puppeteer.use(StealthPlugin());
@@ -89,7 +89,6 @@ async function runPuppeteer() {
     runPuppeteer();
   }
 }
-runPuppeteer();
 function saveBase64ToFile(base64String: string) {
   // Split the base64 string to get the actual data
   const base64Data = extractBase64FromBackground(base64String);
@@ -120,3 +119,8 @@ function extractBase64FromBackground(style: string) {
 
   return null; // Return null if no match is found
 }
+
+// Schedule to run every 5 minutes at 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 minutes
+cron.schedule("*/5 * * * *", () => {
+  runPuppeteer();
+});

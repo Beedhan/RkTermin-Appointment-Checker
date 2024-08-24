@@ -14,6 +14,7 @@
     "axios": "^1.7.4",
     "chrome-lens-ocr": "^4.0.1",
     "grammy": "^1.29.0",
+    "node-cron": "^3.0.3",
     "puppeteer": "^23.1.1",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2"
@@ -25,7 +26,8 @@
     "assets": "node_modules/puppeteer-extra-plugin-stealth/**/*.*"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/node-cron": "^3.0.11"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
