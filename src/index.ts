@@ -13,9 +13,9 @@ puppeteer.use(StealthPlugin());
 let browser: Browser | null = null;
 async function runPuppeteer() {
   try {
-    console.log("Started puppeteer");
+    console.log("Started task");
     browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       args: ["--no-sandbox"],
     });
     const page = await browser.newPage();
@@ -24,9 +24,10 @@ async function runPuppeteer() {
     );
     await page.setDefaultTimeout(2000);
     await page.setDefaultNavigationTimeout(0);
+    console.log("Going to the page");
     await Promise.all([
       page.waitForNavigation({
-        waitUntil: "networkidle0",
+        waitUntil: "networkidle2",
       }),
       page.goto(
         "https://service2.diplo.de/rktermin/extern/appointment_showMonth.do?locationCode=kath&realmId=321&categoryId=3142"
@@ -51,13 +52,16 @@ async function runPuppeteer() {
       console.log(extractedText);
       throw new Error("Extraction error");
     }
+    console.log("Typing captcha");
     await page.focus("#appointment_captcha_month_captchaText");
     await page.keyboard.type(extractedText);
     await delay(4000);
+    console.log("Clicking submit");
     await Promise.all([
       page.waitForNavigation({ waitUntil: "load" }),
       page.click("#appointment_captcha_month_appointment_showMonth"),
     ]);
+    console.log("Checking for captcha error");
     await page.evaluate(() => {
       console.log("evaluating");
       const errorContainer = document.querySelector(".global-error");
@@ -67,12 +71,14 @@ async function runPuppeteer() {
       }
       return null;
     });
+    console.log("Checking for availability");
     const found = await page.evaluate(() =>
       window.find(
         "Unfortunately, there are no appointments available at this time. New appointments will be made available for booking at regular intervals."
       )
     );
     if (found) {
+      console.log("Not available");
       await bot.api.sendMessage(
         "-1002242509001",
         "No appointment at this time"
@@ -80,6 +86,7 @@ async function runPuppeteer() {
       await browser.close();
       process.exit(1);
     } else {
+      console.log("Appointment available");
       await bot.api.sendMessage(
         "-1002242509001",
         "Appointment available be quickkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
