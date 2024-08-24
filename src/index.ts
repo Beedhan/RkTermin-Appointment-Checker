@@ -13,6 +13,9 @@ puppeteer.use(StealthPlugin());
 let browser: Browser | null = null;
 async function runPuppeteer() {
   try {
+    if (browser) {
+      await browser.close();
+    }
     console.log("Started puppeteer");
     browser = await puppeteer.launch({
       headless: true,
@@ -29,6 +32,7 @@ async function runPuppeteer() {
     await page.setDefaultNavigationTimeout(0);
 
     console.log("Waiting for captcha");
+    await delay(1500);
     await page.waitForSelector("captcha");
     const base64Captcha = await page.$eval(
       "captcha>div",
@@ -71,15 +75,16 @@ async function runPuppeteer() {
         "-1002242509001",
         "No appointment at this time"
       );
+      await browser.close();
       process.exit(1);
     } else {
       await bot.api.sendMessage(
         "-1002242509001",
         "Appointment available be quickkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
       );
+      await browser.close();
       process.exit(1);
     }
-    await browser.close();
   } catch (error: any) {
     if (browser) {
       browser.close();
