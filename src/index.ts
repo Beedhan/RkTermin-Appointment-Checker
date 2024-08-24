@@ -71,11 +71,13 @@ async function runPuppeteer() {
         "-1002242509001",
         "No appointment at this time"
       );
+      process.exit(1);
     } else {
       await bot.api.sendMessage(
         "-1002242509001",
         "Appointment available be quickkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
       );
+      process.exit(1);
     }
     await browser.close();
   } catch (error: any) {
