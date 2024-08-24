@@ -145,7 +145,7 @@ async function runWithTimeout(timeout: number) {
 
 console.log("Started app");
 // Schedule to run every 5 minutes at 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 minutes
-cron.schedule("* * * * *", async () => {
+cron.schedule("*/5 * * * *", async () => {
   try {
     console.log("Started job");
     await runWithTimeout(300000); // Set timeout to 5 minutes (300000 ms)
