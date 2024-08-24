@@ -25,15 +25,17 @@ async function runPuppeteer() {
     await page.setDefaultTimeout(2000);
     await page.setDefaultNavigationTimeout(0);
     await Promise.all([
-      await page.waitForNavigation(),
-      await page.goto(
+      page.waitForNavigation({
+        waitUntil: "networkidle0",
+      }),
+      page.goto(
         "https://service2.diplo.de/rktermin/extern/appointment_showMonth.do?locationCode=kath&realmId=321&categoryId=3142"
       ),
     ]);
 
     console.log("Waiting for captcha");
-    await delay(500);
-    await page.waitForSelector("captcha");
+    // await delay(500);
+    // await page.waitForSelector("captcha");
     const base64Captcha = await page.$eval(
       "captcha>div",
       (div) => div.style.background
@@ -156,3 +158,4 @@ cron.schedule("* * * * *", async () => {
     process.exit(1); // Exit the process if timeout occurs
   }
 });
+// runPuppeteer();
