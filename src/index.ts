@@ -120,7 +120,26 @@ function extractBase64FromBackground(style: string) {
   return null; // Return null if no match is found
 }
 
+async function runWithTimeout(timeout: number) {
+  return Promise.race([
+    runPuppeteer(),
+    new Promise<void>((_, reject) =>
+      setTimeout(() => {
+        reject(new Error("Process timed out"));
+      }, timeout)
+    ),
+  ]);
+}
+
 // Schedule to run every 5 minutes at 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 minutes
-cron.schedule("*/5 * * * *", () => {
-  runPuppeteer();
+cron.schedule("*/5 * * * *", async () => {
+  try {
+    await runWithTimeout(300000); // Set timeout to 5 minutes (300000 ms)
+  } catch (error: any) {
+    console.error(error.message);
+    if (browser) {
+      await browser.close();
+    }
+    process.exit(1); // Exit the process if timeout occurs
+  }
 });
