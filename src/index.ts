@@ -13,8 +13,9 @@ puppeteer.use(StealthPlugin());
 let browser: Browser | null = null;
 async function runPuppeteer() {
   try {
+    console.log("Started puppeteer");
     browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
     });
     const page = await browser.newPage();
     await page.setUserAgent(
@@ -26,6 +27,7 @@ async function runPuppeteer() {
     await page.setDefaultTimeout(200);
     await page.setDefaultNavigationTimeout(0);
 
+    console.log("Waiting for captcha");
     await page.waitForSelector("captcha");
     const base64Captcha = await page.$eval(
       "captcha>div",
@@ -134,12 +136,14 @@ async function runWithTimeout(timeout: number) {
 // Schedule to run every 5 minutes at 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 minutes
 cron.schedule("*/5 * * * *", async () => {
   try {
+    console.log("Started job");
     await runWithTimeout(300000); // Set timeout to 5 minutes (300000 ms)
   } catch (error: any) {
     console.error(error.message);
     if (browser) {
       await browser.close();
     }
+    console.log("End of 5 minutes timer");
     process.exit(1); // Exit the process if timeout occurs
   }
 });
