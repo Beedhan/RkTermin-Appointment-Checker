@@ -16,6 +16,7 @@ async function runPuppeteer() {
     console.log("Started puppeteer");
     browser = await puppeteer.launch({
       headless: true,
+      args: ["--no-sandbox"],
     });
     const page = await browser.newPage();
     await page.setUserAgent(
@@ -133,8 +134,9 @@ async function runWithTimeout(timeout: number) {
   ]);
 }
 
+console.log("Started app");
 // Schedule to run every 5 minutes at 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 minutes
-cron.schedule("*/5 * * * *", async () => {
+cron.schedule("* * * * *", async () => {
   try {
     console.log("Started job");
     await runWithTimeout(300000); // Set timeout to 5 minutes (300000 ms)
