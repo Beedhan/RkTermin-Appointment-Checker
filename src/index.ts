@@ -164,18 +164,18 @@ async function runWithTimeout(timeout: number) {
 
 console.log("Started app");
 // Schedule to run every 5 minutes at 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 minutes
-// cron.schedule("*/5 * * * *", async () => {
-//   if (browser) {
-//     console.log("Browser closed");
-//     await browser.close();
-//   }
-//   try {
-//     console.log("Started job");
-//     await runWithTimeout(300000); // Set timeout to 5 minutes (300000 ms)
-//   } catch (error: any) {
-//     console.error(error.message);
-//     console.log("End of 5 minutes timer");
-//     process.exit(1); // Exit the process if timeout occurs
-//   }
-// });
-runPuppeteer();
+cron.schedule("*/5 * * * *", async () => {
+  if (browser) {
+    console.log("Browser closed");
+    await browser.close();
+  }
+  try {
+    console.log("Started job");
+    await runWithTimeout(300000); // Set timeout to 5 minutes (300000 ms)
+  } catch (error: any) {
+    console.error(error.message);
+    console.log("End of 5 minutes timer");
+    process.exit(1); // Exit the process if timeout occurs
+  }
+});
+// runPuppeteer();
