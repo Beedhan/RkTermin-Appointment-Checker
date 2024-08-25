@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 import { Browser } from "puppeteer";
 import { botToken, delay } from "./utils";
-import { Bot } from "grammy";
+import { Bot, InputFile } from "grammy";
 import cron from "node-cron";
 const bot = new Bot(botToken);
 
@@ -79,6 +79,10 @@ async function runPuppeteer() {
     );
     if (found) {
       console.log("Not available");
+      await bot.api.sendPhoto(
+        "-1002242509001",
+        new InputFile(path.join(__dirname, "image.jpg"))
+      );
       await bot.api.sendMessage(
         "-1002242509001",
         `No appointment at this time. \nCaptcha was <b>${extractedText}</b>`,
@@ -88,6 +92,11 @@ async function runPuppeteer() {
       process.exit(1);
     } else {
       console.log("Appointment available");
+      await bot.api.sendMessage(
+        "-1002195384584",
+        "<b>Appointment available be quickkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</b>",
+        { parse_mode: "HTML" }
+      );
       await bot.api.sendMessage(
         "-1002242509001",
         "<b>Appointment available be quickkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</b>",
@@ -99,6 +108,7 @@ async function runPuppeteer() {
   } catch (error: any) {
     if (browser) {
       browser.close();
+      browser = null;
     }
     if (
       error.message !== "Extraction error" &&
@@ -154,17 +164,18 @@ async function runWithTimeout(timeout: number) {
 
 console.log("Started app");
 // Schedule to run every 5 minutes at 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55 minutes
-cron.schedule("*/5 * * * *", async () => {
-  try {
-    console.log("Started job");
-    await runWithTimeout(300000); // Set timeout to 5 minutes (300000 ms)
-  } catch (error: any) {
-    console.error(error.message);
-    if (browser) {
-      await browser.close();
-    }
-    console.log("End of 5 minutes timer");
-    process.exit(1); // Exit the process if timeout occurs
-  }
-});
-// runPuppeteer();
+// cron.schedule("*/5 * * * *", async () => {
+//   if (browser) {
+//     console.log("Browser closed");
+//     await browser.close();
+//   }
+//   try {
+//     console.log("Started job");
+//     await runWithTimeout(300000); // Set timeout to 5 minutes (300000 ms)
+//   } catch (error: any) {
+//     console.error(error.message);
+//     console.log("End of 5 minutes timer");
+//     process.exit(1); // Exit the process if timeout occurs
+//   }
+// });
+runPuppeteer();
