@@ -15,7 +15,7 @@ async function runPuppeteer() {
   try {
     console.log("Started task");
     browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();
@@ -171,7 +171,7 @@ cron.schedule("*/5 * * * *", async () => {
   }
   try {
     console.log("Started job");
-    await runWithTimeout(300000); // Set timeout to 5 minutes (300000 ms)
+    await runWithTimeout(290000); // Set timeout to 4.83 minutes (300000 ms)
   } catch (error: any) {
     console.error(error.message);
     console.log("End of 5 minutes timer");
