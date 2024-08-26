@@ -15,7 +15,7 @@ async function runPuppeteer() {
   try {
     console.log("Started task");
     browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();
@@ -30,7 +30,7 @@ async function runPuppeteer() {
         waitUntil: "networkidle2",
       }),
       page.goto(
-        "https://service2.diplo.de/rktermin/extern/appointment_showMonth.do?locationCode=kath&realmId=321&categoryId=3142"
+        "https://service2.diplo.de/rktermin/extern/appointment_showMonth.do?locationCode=kath&realmId=321&categoryId=3142&dateStr=27.09.2024"
       ),
     ]);
 
