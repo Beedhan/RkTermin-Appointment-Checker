@@ -92,11 +92,15 @@ async function runPuppeteer() {
       process.exit(1);
     } else {
       console.log("Appointment available");
-      await bot.api.sendMessage(
-        "-1002195384584",
-        "<b>Appointment available be quickkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</b>",
-        { parse_mode: "HTML" }
-      );
+      (async () => {
+        for (let index = 0; index < 25; index++) {
+          await bot.api.sendMessage(
+            "-1002195384584",
+            "<b>Appointment available be quickkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</b>",
+            { parse_mode: "HTML" }
+          );
+        }
+      })();
       await bot.api.sendMessage(
         "-1002242509001",
         "<b>Appointment available be quickkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</b>",
