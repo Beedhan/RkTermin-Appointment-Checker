@@ -92,6 +92,13 @@ async function runPuppeteer() {
       process.exit(1);
     } else {
       console.log("Appointment available");
+      await page.screenshot({
+        path: "screenshot.jpg",
+      });
+      await bot.api.sendPhoto(
+        "-1002195384584",
+        new InputFile(path.join(__dirname, "screenshot.jpg"))
+      );
       (async () => {
         for (let index = 0; index < 25; index++) {
           await bot.api.sendMessage(
