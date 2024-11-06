@@ -4,4 +4,4 @@ export async function delay(time: number) {
   });
 }
 //Put your botToken here.
-export const botToken = "";
+export const botToken = process.env.BOT_TOKEN;
