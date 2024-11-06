@@ -1,4 +1,4 @@
-# Germanembassyalert
+# German embassy alert
 
 To install dependencies:
 
