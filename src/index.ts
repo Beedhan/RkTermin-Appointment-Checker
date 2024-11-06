@@ -97,7 +97,7 @@ async function runPuppeteer() {
         new InputFile(path.join(__dirname, "image.jpg"))
       );
       await bot.api.sendMessage(
-        "-1002242509001",
+        "channel_id",
         `No appointment at this time. \nCaptcha was <b>${extractedText}</b>`,
         { parse_mode: "HTML" }
       );
@@ -105,13 +105,13 @@ async function runPuppeteer() {
       console.log("Appointment available");
       for (let index = 0; index < 25; index++) {
         await bot.api.sendMessage(
-          "-1002195384584",
+          "channel_id",
           "<b>Appointment available be quickkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</b>",
           { parse_mode: "HTML" }
         );
       }
       await bot.api.sendMessage(
-        "-1002242509001",
+        "channel_id",
         "<b>Appointment available be quickkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</b>",
         { parse_mode: "HTML" }
       );
