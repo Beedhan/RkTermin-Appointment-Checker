@@ -30,7 +30,7 @@ async function runPuppeteer() {
 
     console.log("Going to the page");
     await page.goto(
-      "https://service2.diplo.de/rktermin/extern/appointment_showMonth.do?locationCode=kath&realmId=321&categoryId=3142",
+     process.env.APPOINTMENT_URL,
       { waitUntil: "networkidle2" }
     );
 
